@@ -40,7 +40,7 @@ EOF
 mkdir -p "${CACHE_DIR}/clamav-data"
 
 echo ${PATH}
-PATH=${PATH}:${BUILD_DIR}/.apt/bin
+PATH=${PATH}:${BUILD_DIR}/.apt/usr/bin
 
 # Override the specified datadir so we retain changes via the cache.
 freshclam --config-file="${BUILD_DIR}/clamav/freshclam.conf" --datadir="${CACHE_DIR}/clamav-data/" --log=/dev/stdout --quiet
