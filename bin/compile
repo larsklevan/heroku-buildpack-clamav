@@ -3,7 +3,7 @@
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-set -e
+set -x
 
 echo "PATH: " $PATH
 
@@ -11,6 +11,7 @@ echo "PATH: " $PATH
 `which freshclam`
 ls $BUILD_DIR/.apt/usr/bin
 
+# set -e
 # mkdir -p "${CACHE_DIR}/clamav-data"
 # # Override the specified datadir so we retain changes via the cache.
 # freshclam --config-file="${BUILD_DIR}/clamav/freshclam.conf" --datadir="${CACHE_DIR}/clamav-data/" --log=/dev/stdout --quiet
