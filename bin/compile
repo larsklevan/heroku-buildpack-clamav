@@ -44,16 +44,6 @@ PATH=${PATH}:${BUILD_DIR}/.apt/usr/bin
 
 # Override the specified datadir so we retain changes via the cache.
 freshclam --config-file="${BUILD_DIR}/clamav/freshclam.conf" --datadir="${CACHE_DIR}/clamav-data/" --log=/dev/stdout --quiet
-freshclam --datadir="${CACHE_DIR}/clamav-data/" --log=/dev/stdout --quiet
 
 rm -rf "${BUILD_DIR}/.clamav-data"
 cp -rp "${CACHE_DIR}/clamav-data" "${BUILD_DIR}/.clamav-data"
-
-exit 1
-
-# set -e
-# mkdir -p "${CACHE_DIR}/clamav-data"
-# # Override the specified datadir so we retain changes via the cache.
-# freshclam --config-file="${BUILD_DIR}/clamav/freshclam.conf" --datadir="${CACHE_DIR}/clamav-data/" --log=/dev/stdout --quiet
-# rm -rf "${BUILD_DIR}/.clamav-data"
-# cp -rp "${CACHE_DIR}/clamav-data" "${BUILD_DIR}/.clamav-data"
