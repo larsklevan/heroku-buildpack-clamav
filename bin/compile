@@ -4,8 +4,15 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 
 set -e
-mkdir -p "${CACHE_DIR}/clamav-data"
-# Override the specified datadir so we retain changes via the cache.
-freshclam --config-file="${BUILD_DIR}/clamav/freshclam.conf" --datadir="${CACHE_DIR}/clamav-data/" --log=/dev/stdout --quiet
-rm -rf "${BUILD_DIR}/.clamav-data"
-cp -rp "${CACHE_DIR}/clamav-data" "${BUILD_DIR}/.clamav-data"
+
+echo "PATH: " $PATH
+
+`which ruby`
+`which freshclam`
+ls $BUILD_DIR/.apt/usr/bin
+
+# mkdir -p "${CACHE_DIR}/clamav-data"
+# # Override the specified datadir so we retain changes via the cache.
+# freshclam --config-file="${BUILD_DIR}/clamav/freshclam.conf" --datadir="${CACHE_DIR}/clamav-data/" --log=/dev/stdout --quiet
+# rm -rf "${BUILD_DIR}/.clamav-data"
+# cp -rp "${CACHE_DIR}/clamav-data" "${BUILD_DIR}/.clamav-data"
