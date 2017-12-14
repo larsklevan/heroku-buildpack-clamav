@@ -5,8 +5,49 @@ CACHE_DIR=$2
 
 set -x
 
-find $BUILD_DIR -name "freshclam.conf"
-find $CACHE_DIR -name "freshclam.conf"
+mkdir -p ${BUILD_DIR}/clamav/
+
+cat >> ${BUILD_DIR}/clamav/freshclam.conf << EOF
+# Automatically created by the clamav-freshclam postinst
+# Comments will get lost when you reconfigure the clamav-freshclam package
+DatabaseOwner clamav
+UpdateLogFile /app/.apt/var/log/clamav/freshclam.log
+LogVerbose false
+LogSyslog false
+LogFacility LOG_LOCAL6
+LogFileMaxSize 0
+LogRotate true
+LogTime true
+Foreground false
+Debug false
+MaxAttempts 5
+DatabaseDirectory ${cache}/clamav-data/
+DNSDatabaseInfo current.cvd.clamav.net
+AllowSupplementaryGroups false
+PidFile /app/.apt/var/run/clamav/freshclam.pid
+ConnectTimeout 30
+ReceiveTimeout 30
+TestDatabases yes
+ScriptedUpdates yes
+CompressLocalDatabase no
+Bytecode true
+# Check for new database 24 times a day
+Checks 24
+DatabaseMirror db.local.clamav.net
+DatabaseMirror database.clamav.net
+EOF
+
+mkdir -p "${CACHE_DIR}/clamav-data"
+
+echo ${PATH}
+PATH=${PATH}:${BUILD_DIR}/.apt/bin
+
+# Override the specified datadir so we retain changes via the cache.
+freshclam --config-file="${BUILD_DIR}/clamav/freshclam.conf" --datadir="${CACHE_DIR}/clamav-data/" --log=/dev/stdout --quiet
+freshclam --datadir="${CACHE_DIR}/clamav-data/" --log=/dev/stdout --quiet
+
+rm -rf "${BUILD_DIR}/.clamav-data"
+cp -rp "${CACHE_DIR}/clamav-data" "${BUILD_DIR}/.clamav-data"
 
 exit 1
 
